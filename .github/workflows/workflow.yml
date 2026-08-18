@@ -35,8 +35,7 @@ jobs:
       - name: Run tests
         run: npm test
   build:
-    name: Build and Test
-    needs: [lint, tests]
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
