@@ -29,6 +29,12 @@ export class UsersRepository {
         email: data.email,
         passwordHash: data.password,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+      },
     });
   }
 }

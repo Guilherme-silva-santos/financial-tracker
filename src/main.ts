@@ -4,6 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import 'dotenv/config';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
+import { TransformDecimalInterceptor } from './commom/interceptors/transform-decimal.interceptor';
 
 async function bootstrap() {
   if (
@@ -24,13 +25,12 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalInterceptors(new TransformDecimalInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('Financial Tracker API')
     .setDescription('The Financial Tracker API description')
     .setVersion('1.0')
-    .addTag('expenses')
-    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);

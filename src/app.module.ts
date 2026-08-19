@@ -13,6 +13,8 @@ import { PrismaModule } from './prisma/prisma.module.js';
 import { UsersModule } from './domains/users/users.module';
 import { AuthModule } from './domains/auth/auth.module';
 import { JwtAuthMiddleware } from './middleware/jwt-auth.middleware';
+import { CategoriesModule } from './domains/categories/categories.module';
+import { ExpensesModule } from './domains/expenses/expenses.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { JwtAuthMiddleware } from './middleware/jwt-auth.middleware';
     PrismaModule,
     UsersModule,
     AuthModule,
+    ExpensesModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }],
