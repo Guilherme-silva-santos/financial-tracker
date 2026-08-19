@@ -29,6 +29,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get user by ID' })
   @ApiParam({ name: 'id', type: 'string', description: 'User ID' })

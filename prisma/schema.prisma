@@ -30,10 +30,10 @@ model User {
 model Category {
   id        String    @id @default(uuid())
   name      String
-  createdAt DateTime  @default(now())
-  users     User      @relation(fields: [usersId], references: [id])
-  usersId   String
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
   expenses  Expense[]
+  createdAt DateTime  @default(now())
 
   @@map("categorie")
 }
@@ -45,8 +45,8 @@ model Expense {
   categories   Category @relation(fields: [categoriesId], references: [id])
   categoriesId String
   createdAt    DateTime @default(now())
-  users        User     @relation(fields: [usersId], references: [id])
-  usersId      String
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
 
   @@map("expense")
 }
