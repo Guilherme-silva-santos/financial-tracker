@@ -37,4 +37,11 @@ export class UsersRepository {
       },
     });
   }
+
+  async updateUserTelegramChatId(id: string, telegramChatId: string) {
+    return this.prisma.user.update({
+      where: { id },
+      data: { telegramChatId },
+    });
+  }
 }

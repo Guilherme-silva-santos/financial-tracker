@@ -16,7 +16,7 @@ import { JwtAuthMiddleware } from './middleware/jwt-auth.middleware';
 import { CategoriesModule } from './domains/categories/categories.module';
 import { ExpensesModule } from './domains/expenses/expenses.module';
 import { TelegramModule } from './domains/telegram/telegram.module';
-import { RedisModule } from './redis/prisma.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [

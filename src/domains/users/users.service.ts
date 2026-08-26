@@ -30,4 +30,13 @@ export class UsersService {
   ): Promise<boolean> {
     return await bcrypt.compare(password, hashedPassword);
   }
+
+  async updateUserTelegramChatId(id: string, telegramChatId: string) {
+    const user = await this.usersRepository.findById(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return this.usersRepository.updateUserTelegramChatId(id, telegramChatId);
+  }
 }
