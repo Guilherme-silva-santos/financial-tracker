@@ -5,6 +5,7 @@ import 'dotenv/config';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
 import { TransformDecimalInterceptor } from './commom/interceptors/transform-decimal.interceptor';
+import { getBotToken } from 'nestjs-telegraf';
 
 async function bootstrap() {
   if (
@@ -26,6 +27,8 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalInterceptors(new TransformDecimalInterceptor());
+  const bot = app.get(getBotToken());
+  app.use(bot.webhookCallback(process.env.TELEGRAM_PATH));
 
   const config = new DocumentBuilder()
     .setTitle('Financial Tracker API')

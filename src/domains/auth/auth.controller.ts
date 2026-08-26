@@ -6,7 +6,8 @@ import { Throttle } from '@nestjs/throttler';
 import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
-
+import { CurrentUser } from './decorators/current-user.decorator';
+import type { AuthenticatedUser } from './decorators/current-user.decorator';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -42,5 +43,15 @@ export class AuthController {
   logout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('access_token');
     return { message: 'Logged out' };
+  }
+
+  @Post('generate-telegram-link-code')
+  @ApiOperation({
+    summary: 'Generate a Telegram link code for the authenticated user',
+  })
+  @ApiResponse({ status: 200, description: 'Telegram link code generated' })
+  async generateTelegramLinkCode(@CurrentUser() user: AuthenticatedUser) {
+    const code = await this.authService.generateTelegramLinkCode(user.id);
+    return { code };
   }
 }
