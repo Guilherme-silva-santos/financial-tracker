@@ -53,4 +53,15 @@ export class CategoriesRepository {
       data,
     });
   }
+
+  async findCategoriesByUserId(userId: string) {
+    return this.prisma.category.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        name: true,
+      },
+    });
+  }
 }

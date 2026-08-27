@@ -28,4 +28,8 @@ export class CategoriesService {
   async update(id: string, data: { name: string }) {
     return this.categoriesRepository.update(id, data);
   }
+
+  async findCategoriesByUserId(userId: string) {
+    return this.categoriesRepository.findCategoriesByUserId(userId);
+  }
 }

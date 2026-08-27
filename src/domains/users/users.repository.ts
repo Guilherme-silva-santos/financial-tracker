@@ -44,4 +44,18 @@ export class UsersRepository {
       data: { telegramChatId },
     });
   }
+
+  async findUserByChatID(userId: string) {
+    return this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        categories: true,
+        expenses: true,
+        telegramChatId: true,
+      },
+    });
+  }
 }

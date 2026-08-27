@@ -24,12 +24,23 @@ export class TelegramUpdate {
       );
       return;
     }
+    try {
+      await this.usersService.updateUserTelegramChatId(
+        userId,
+        String(ctx.chat?.id),
+      );
+      await ctx.reply('Seu chat do Telegram foi vinculado com sucesso!');
+    } catch (error) {
+      await ctx.reply(
+        'Ocorreu um erro ao vincular seu chat do Telegram. Por favor, tente novamente.',
+      );
+      console.error('Erro ao vincular chat do Telegram:', error);
+    }
+  }
 
-    await this.usersService.updateUserTelegramChatId(
-      userId,
-      String(ctx.chat?.id),
-    );
-    await ctx.reply('Seu chat do Telegram foi vinculado com sucesso!');
+  @Command('cadastrar_despesa')
+  async onRegisterExpense(@Ctx() ctx: Context) {
+    console.log('id', ctx.chat?.id);
   }
 
   @On('text')
