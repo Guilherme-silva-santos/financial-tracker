@@ -61,6 +61,8 @@ export class CategoriesRepository {
       },
       select: {
         name: true,
+        id: true,
+        userId: true,
       },
     });
   }

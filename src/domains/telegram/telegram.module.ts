@@ -4,6 +4,8 @@ import { TelegrafModule } from 'nestjs-telegraf';
 import { TelegramService } from './telegram.service';
 import { TelegramUpdate } from './telegram.update';
 import { UsersModule } from '../users/users.module';
+import { CategoriesService } from '../categories/categories.service';
+import { CategoriesRepository } from '../categories/categories.repository';
 
 @Module({
   imports: [
@@ -22,6 +24,11 @@ import { UsersModule } from '../users/users.module';
       }),
     }),
   ],
-  providers: [TelegramService, TelegramUpdate],
+  providers: [
+    TelegramService,
+    TelegramUpdate,
+    CategoriesService,
+    CategoriesRepository,
+  ],
 })
 export class TelegramModule {}

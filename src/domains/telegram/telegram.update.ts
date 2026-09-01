@@ -1,15 +1,20 @@
 import { SkipThrottle } from '@nestjs/throttler';
-import { Update, Ctx, On, Command } from 'nestjs-telegraf';
-import { Context } from 'telegraf';
+import { Update, Ctx, On, Command, Action } from 'nestjs-telegraf';
+import { Context, Markup } from 'telegraf';
 import { UsersService } from '../users/users.service';
 import { RedisService } from 'src/redis/redis.service';
+import { CategoriesService } from '../categories/categories.service';
+import { TelegramUserGuard } from '../auth/guards/telegram-auth.guard';
+import { UseGuards } from '@nestjs/common';
 
+@UseGuards(TelegramUserGuard)
 @SkipThrottle()
 @Update()
 export class TelegramUpdate {
   constructor(
     private readonly usersService: UsersService,
     private readonly redisService: RedisService,
+    private readonly categoriesService: CategoriesService,
   ) {}
   @Command('start')
   async onStart(@Ctx() ctx: Context) {
@@ -40,7 +45,34 @@ export class TelegramUpdate {
 
   @Command('cadastrar_despesa')
   async onRegisterExpense(@Ctx() ctx: Context) {
-    console.log('id', ctx.chat?.id);
+    const user = ctx.state.user;
+
+    const categoriesByUser =
+      await this.categoriesService.findCategoriesByUserId(user.id);
+
+    if (!categoriesByUser || categoriesByUser.length === 0) {
+      await ctx.reply(
+        'Você não possui categorias cadastradas. Por favor, cadastre uma categoria primeiro.',
+      );
+      return;
+    }
+
+    const listCategories = Markup.inlineKeyboard(
+      categoriesByUser.map((category) => [
+        Markup.button.callback(category.name, `select_category_${category.id}`),
+      ]),
+    );
+
+    await ctx.reply('Selecione uma categoria para a despesa:', listCategories);
+  }
+
+  @Action(/select_category_(.+)/)
+  async onSelectCategory(@Ctx() ctx: Context & { match: RegExpMatchArray }) {
+    const categoryId = ctx.match[1];
+    console.log('Mensagem recebida:', categoryId);
+    await ctx.reply(
+      `Você selecionou a categoria com ID: ${categoryId}. Agora, por favor, envie o valor da despesa.`,
+    );
   }
 
   @On('text')

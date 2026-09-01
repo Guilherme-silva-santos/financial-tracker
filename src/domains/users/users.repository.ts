@@ -45,15 +45,13 @@ export class UsersRepository {
     });
   }
 
-  async findUserByChatID(userId: string) {
+  async findUserByChatID(chatId: string) {
     return this.prisma.user.findUnique({
-      where: { id: userId },
+      where: { telegramChatId: chatId },
       select: {
         id: true,
         name: true,
         email: true,
-        categories: true,
-        expenses: true,
         telegramChatId: true,
       },
     });

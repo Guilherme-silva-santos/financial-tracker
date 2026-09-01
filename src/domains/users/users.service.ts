@@ -40,7 +40,7 @@ export class UsersService {
     return this.usersRepository.updateUserTelegramChatId(id, telegramChatId);
   }
 
-  async findUserByChatID(userId: string) {
-    return this.usersRepository.findUserByChatID;
+  async findUserByChatID(chatId: string) {
+    return this.usersRepository.findUserByChatID(chatId);
   }
 }
