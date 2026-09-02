@@ -30,4 +30,12 @@ export class ExpensesService {
   async update(id: string, data: { description: string; amount: number }) {
     return this.expensesRepository.update(id, data);
   }
+
+  async findExpensesByDate(userId: string, startDate: Date, endDate: Date) {
+    return this.expensesRepository.findExpensesByDate(
+      userId,
+      startDate,
+      endDate,
+    );
+  }
 }

@@ -59,4 +59,18 @@ export class ExpensesRepository {
       data,
     });
   }
+
+  async findExpensesByDate(userId: string, startDate: Date, endDate: Date) {
+    return this.prisma.expense.findMany({
+      where: {
+        user: {
+          id: userId,
+        },
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    });
+  }
 }

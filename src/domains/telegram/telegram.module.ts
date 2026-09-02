@@ -6,6 +6,8 @@ import { TelegramUpdate } from './telegram.update';
 import { UsersModule } from '../users/users.module';
 import { CategoriesService } from '../categories/categories.service';
 import { CategoriesRepository } from '../categories/categories.repository';
+import { ExpensesService } from '../expenses/expenses.service';
+import { ExpensesRepository } from '../expenses/expenses.repository';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { CategoriesRepository } from '../categories/categories.repository';
     TelegramUpdate,
     CategoriesService,
     CategoriesRepository,
+    ExpensesService,
+    ExpensesRepository,
   ],
 })
 export class TelegramModule {}
